@@ -33,4 +33,9 @@
 <group ns="lab_four">
     <node pkg="waypoint_patroling" name="mapper" type="mapper.py"/>
   </group>
+
+<!-- This saves the created bag file in root direcory in the folder ~/.ros -->
+  <node pkg="rosbag" type="record" name="waypoint_patrol_bag"
+            args="-o waypoint_patrol_bag /cmd_vel /move_base/goal /jackal_velocity_controller/cmd_vel"/>
+
 </launch>
