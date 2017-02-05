@@ -1,5 +1,4 @@
 <launch>
-<<<<<<< HEAD
   <arg name="use_sim_time" default="true" />
   <arg name="gui" default="true" />
   <arg name="headless" default="false" />
@@ -15,23 +14,21 @@
   <!-- Configuration of Jackal which you would like to simulate.
        See jackal_description for details. -->
   <arg name="config" default="$(arg default_config)" />
-=======
->>>>>>> a3095e89f07982d99d247fd2e9a3c4fde7e20642
 
   <!-- Launch Gazebo with the specified world -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
-    <!-- <arg name="debug" value="0" />
-    <arg name="gui" value="true" />
-    <arg name="use_sim_time" value="true" />
-    <arg name="headless" value="false" /> -->
-    <arg name="world_name" value="$(find jackal_gazebo)/worlds/jackal_race.world" />
+    <arg name="debug" value="0" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="use_sim_time" value="$(arg use_sim_time)" />
+    <arg name="headless" value="$(arg headless)" />
+    <arg name="world_name" value="$(arg world_name)" />
   </include>
 
+  <!-- Load Jackal's description, controllers, and teleop nodes. -->
   <include file="$(find jackal_description)/launch/description.launch">
-    <arg name="config" value="front_laser" />
+    <arg name="config" value="$(arg config)" />
   </include>
   <include file="$(find jackal_control)/launch/control.launch" />
-<<<<<<< HEAD
   <include file="$(find jackal_control)/launch/teleop.launch">
     <arg name="joystick" value="false"/>o
   </include>
@@ -48,31 +45,5 @@
 
   <!--- Run Move Base
   <include file="$(find jackal_navigation)/launch/include/move_base.launch" /> -->
-=======
-
-  <!-- Spawn Jackal -->
-  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
-	      args="-urdf -model jackal -param robot_description -x 0 -y 0 -z 1.0" />
-
-  <!--- Run gmapping -->
-  <include file="$(find jackal_navigation)/launch/include/gmapping.launch" />
-
-  <!--- Run Move Base -->
-  <include file="$(find jackal_navigation)/launch/include/move_base.launch" />
-
-  <!-- Run Rviz with gmapping configuration-->
-  <param name="use_gui" value="true"/>
-  <arg name="config" default="gmapping" />
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jackal_viz)/rviz/$(arg config).rviz" />
-
-  <!-- Run Node that sets 2D Navigation goals for map exploration-->
-<group ns="lab_four">
-    <node pkg="waypoint_patroling" name="mapper" type="mapper.py"/>
-  </group>
-
-<!-- This saves the created bag file in root direcory in the folder ~/.ros -->
-  <node pkg="rosbag" type="record" name="waypoint_patrol_bag"
-            args="-o waypoint_patrol_bag /cmd_vel /move_base/goal /jackal_velocity_controller/cmd_vel"/>
->>>>>>> a3095e89f07982d99d247fd2e9a3c4fde7e20642
 
 </launch>
