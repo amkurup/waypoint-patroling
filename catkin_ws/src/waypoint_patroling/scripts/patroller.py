@@ -15,18 +15,18 @@ coordinates[1][2] = 1
 coordinates[2][0] = 1
 coordinates[2][1] = -4
 coordinates[2][2] = 1
-#coordinates[3][0] = 3
-#coordinates[3][1] = 8
-#coordinates[3][2] = 1
-coordinates[3][0] = -3
-coordinates[3][1] = 3
+coordinates[3][0] = 3
+coordinates[3][1] = 8
 coordinates[3][2] = 1
-coordinates[4][0] = -5
-coordinates[4][1] = 7
+coordinates[4][0] = -3
+coordinates[4][1] = 3
 coordinates[4][2] = 1
-coordinates[5][0] = 8
-coordinates[5][1] = -8
+coordinates[5][0] = -5
+coordinates[5][1] = 7
 coordinates[5][2] = 1
+coordinates[6][0] = 8
+coordinates[6][1] = -8
+coordinates[6][2] = 1
 
 def patroller():
     mvbs = actionlib.SimpleActionClient('move_base', MoveBaseAction)
