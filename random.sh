@@ -12,6 +12,10 @@ let "point_y = $point_y - 5"
 echo "X location: $point_x"
 echo "Y location: $point_y"
 
-echo "roslaunch waypoint_patroling waypoint_patroling_2.launch spawn:="$point_x $point_y""
+cp catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_2.launch catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_22.launch
+
+echo "roslaunch waypoint_patroling waypoint_patroling_22.launch spawn:="$point_x $point_y""
 #roslaunch waypoint_patroling waypoint_patroling_2.launch spawn:="$point_x $point_y"
-sed -i 's/-x 0 -y 0/-x '$point_x' -y '$point_y'/g' catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_2.launch
+sed -i 's/-x 0 -y 0/-x '$point_x' -y '$point_y'/g' catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_22.launch
+roslaunch waypoint_patroling waypoint_patroling_22.launch spawn:="$point_x $point_y"
+
