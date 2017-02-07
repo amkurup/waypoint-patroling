@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # patroling script to spawn the jackal in a location (x, y) 
-# and follow waypoints while generating a map.
+# and follow waypoints
 
 # Intro to Robotics - EE5900 - Spring 2017
 #          Assignment #4

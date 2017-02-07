@@ -1,4 +1,17 @@
 #!/usr/bin/env python
+
+# mapping script to generate a map.
+
+# Intro to Robotics - EE5900 - Spring 2017
+#          Assignment #4
+
+#       Project #4 Group #2
+#         Akhil (Team Lead)
+#            Philip
+#            Roger
+#
+# Revision: v1.1
+
 import rospy
 import random
 import sys
