@@ -1,13 +1,15 @@
 #!/usr/bin/env python
+import sys
 import rospy
 import actionlib
 #from tf import transformations as t
-from tf import TransformListener
+#from tf import TransformListener
 from actionlib_msgs.msg import *
 from geometry_msgs.msg import Point
 from move_base_msgs.msg	import MoveBaseAction, MoveBaseGoal
 
 
+# Initialize Waypoint coordinates
 coordinates = [[0 for x in range(3)] for y in range(8)]
 coordinates[0][0] = -3
 coordinates[0][1] = -1
@@ -34,6 +36,8 @@ coordinates[7][0] = 8
 coordinates[7][1] = -8
 coordinates[7][2] = 1
 
+
+# Function decides initial waypoint based on robot's current position
 def setup_route(x, y):
     if ((x >= -6) and (x <= -2)) and ((y >= -3) and (y <= 0)):
         # Set course for WP 1
@@ -50,19 +54,20 @@ def setup_route(x, y):
     elif ((x > -7) and (x <= -2)) and ((y >= 0) and (y <= 5)):
         # Set course for WP 5
         start = 4
-    elif ((x <= -1) and (y >= 5)) or ((x >= -7) and (y < -4)):
+    elif ((x <= -1) and (y >= 5)) or ((x <= -7) and (y < -4)):
         # Set course for WP 6
         start = 5
-    elif ((x <= -7) and (y >= 4)) or ((x <= -4) and (y <= -3)):
+    elif ((x <= -7) and (y <= 4)) or ((x <= -4) and (y <= -3)):
         # Set course for WP 7
         start = 6
     elif (x >= 1) and (y <= -7):
         # Set course for WP 8
         start = 7
     elif ((x >= -2) and (x <= 5)) and ((y >= -3) and (y < 7)):
-        # DO MATH
+        # For deciding in area with angled obstacles
         diff = x - y
-        if (diff == 0) or (diff == -1):
+        print "diff: %d" % diff
+        if (diff <= 1) and (diff >= -1):
             # Set course for WP 1
             start = 0
         elif (diff >= 2):
@@ -72,8 +77,9 @@ def setup_route(x, y):
             # Set course for WP 4 or 5
             start = 3
     elif ((x <= 1) and (x >= -4)) and (y <= -3):
-        # DO MATH
+        # For deciding in area with angled obstacle
         diff = x - (-1 * y)
+        print "diff: %d" % diff
         if (diff >= -5):
             # Set course for WP 3
             start = 2
@@ -81,7 +87,8 @@ def setup_route(x, y):
             # Set course for WP 8
             start = 7
     else:
-        print "Assertion"
+        rospy.loginfo("Assert")
+    rospy.loginfo("Start: %d" % start)
     return start
 
 
@@ -92,8 +99,7 @@ def patroller(i):
 
     mvbs.wait_for_server()
     rospy.loginfo("Waiting for the move_base action server to come up")
-    #i = 0
-    backtrack = False
+    backtrack = False # variable used to decide when to reverse patrol route
 
 
     while not rospy.is_shutdown():
@@ -106,9 +112,10 @@ def patroller(i):
         pt.target_pose.pose.orientation.y = 0
         pt.target_pose.pose.orientation.z = 0
         pt.target_pose.pose.orientation.w = coordinates[i][2]
-
+        # Send next waypoint goal, wait until goal is reached, iterate to next waypoint
         mvbs.send_goal(pt)
         mvbs.wait_for_result()
+        # Complete current patrol route until route ends, then backtrack
         if backtrack == False:
             if i >= 7:
                 backtrack = True
@@ -127,8 +134,12 @@ def patroller(i):
 if __name__ == "__main__":
     rospy.init_node("mapper")
     try:
-        start = setup_route(1, 1)
-        patroller(start)
+        # Take in robot's initial starting coordinates
+        origin_x = int(sys.argv[1])
+        origin_y = int(sys.argv[2])
+        rospy.loginfo("Recieved coordinates: [%d, %d]" % (origin_x, origin_y))
+        first_waypoint = setup_route(origin_x, origin_y)
+        patroller(first_waypoint)
         rospy.spin()
     except rospy.ROSInterruptException:
         pass
