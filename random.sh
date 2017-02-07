@@ -32,12 +32,19 @@ echo "Y location: $point_y"
 
 # make intermediate file for launch
 cp catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_2.launch catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_22.launch
+cp catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_3.launch catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_33.launch
 
 # replace the spawn locations with the random points
 sed -i 's/-x 0 -y 0/-x '$point_x' -y '$point_y'/g' catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_22.launch
+sed -i 's/-x 0 -y 0/-x '$point_x' -y '$point_y'/g' catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_33.launch
+
 echo "roslaunch waypoint_patroling waypoint_patroling_22.launch spawn:="$point_x $point_y""
 roslaunch waypoint_patroling waypoint_patroling_22.launch spawn:="$point_x $point_y"
 
+echo "roslaunch waypoint_patroling waypoint_patroling_33.launch spawn:="$point_x $point_y""
+roslaunch waypoint_patroling waypoint_patroling_33.launch spawn:="$point_x $point_y"
+
 # remove intermedite files
 # rm catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_22.launch
+# rm catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_33.launch
 
