@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 import rospy
 import actionlib
+#from tf import transformations as t
+from tf import TransformListener
 from actionlib_msgs.msg import *
 from geometry_msgs.msg import Point
 from move_base_msgs.msg	import MoveBaseAction, MoveBaseGoal
 
-coordinates = [[0 for x in range(3)] for y in range(7)]
+
+coordinates = [[0 for x in range(3)] for y in range(8)]
 coordinates[0][0] = -3
 coordinates[0][1] = -1
 coordinates[0][2] = 1
@@ -24,16 +27,75 @@ coordinates[4][2] = 1
 coordinates[5][0] = -5
 coordinates[5][1] = 7
 coordinates[5][2] = 1
-coordinates[6][0] = 8
-coordinates[6][1] = -8
+coordinates[6][0] = -8
+coordinates[6][1] = -2
 coordinates[6][2] = 1
+coordinates[7][0] = 8
+coordinates[7][1] = -8
+coordinates[7][2] = 1
 
-def patroller():
+def setup_route(x, y):
+    if ((x >= -6) and (x <= -2)) and ((y >= -3) and (y <= 0)):
+        # Set course for WP 1
+        start = 0
+    elif ((x >= 5) and ((y > -7) and (y <= 4))):
+        # Set course for WP 2
+        start = 1
+    elif ((x >= 1) and (x < 5)) and ((y >= -7) and (y <= -3)):
+        # Set course for WP 3
+        start = 2
+    elif ((x >= 5) and (y >= 4)) or (((x >= 1) and (x <= 5)) and (y >= 7)):
+        # Set course for WP 4
+        start = 3
+    elif ((x > -7) and (x <= -2)) and ((y >= 0) and (y <= 5)):
+        # Set course for WP 5
+        start = 4
+    elif ((x <= -1) and (y >= 5)) or ((x >= -7) and (y < -4)):
+        # Set course for WP 6
+        start = 5
+    elif ((x <= -7) and (y >= 4)) or ((x <= -4) and (y <= -3)):
+        # Set course for WP 7
+        start = 6
+    elif (x >= 1) and (y <= -7):
+        # Set course for WP 8
+        start = 7
+    elif ((x >= -2) and (x <= 5)) and ((y >= -3) and (y < 7)):
+        # DO MATH
+        diff = x - y
+        if (diff == 0) or (diff == -1):
+            # Set course for WP 1
+            start = 0
+        elif (diff >= 2):
+            # set course for WP 2 or 3
+            start = 1
+        else:
+            # Set course for WP 4 or 5
+            start = 3
+    elif ((x <= 1) and (x >= -4)) and (y <= -3):
+        # DO MATH
+        diff = x - (-1 * y)
+        if (diff >= -5):
+            # Set course for WP 3
+            start = 2
+        else:
+            # Set course for WP 8
+            start = 7
+    else:
+        print "Assertion"
+    return start
+
+
+def patroller(i):
     mvbs = actionlib.SimpleActionClient('move_base', MoveBaseAction)
+
+    rate = rospy.Rate(50)
+
     mvbs.wait_for_server()
     rospy.loginfo("Waiting for the move_base action server to come up")
-    i = 0
+    #i = 0
     backtrack = False
+
+
     while not rospy.is_shutdown():
         pt = MoveBaseGoal()
         pt.target_pose.header.frame_id = 'map'
@@ -48,7 +110,7 @@ def patroller():
         mvbs.send_goal(pt)
         mvbs.wait_for_result()
         if backtrack == False:
-            if i >= 6:
+            if i >= 7:
                 backtrack = True
                 i -= 1
             else:
@@ -61,10 +123,12 @@ def patroller():
             else:
                 i -= 1
             print "i is now: %d" % i
+        rate.sleep()
 if __name__ == "__main__":
     rospy.init_node("mapper")
     try:
-        patroller()
+        start = setup_route(1, 1)
+        patroller(start)
         rospy.spin()
     except rospy.ROSInterruptException:
         pass
