@@ -54,6 +54,31 @@ coordinates[7][2] = 1
 
 # Function decides initial waypoint based on robot's current position
 def setup_route(x, y):
+    coordinates[0][0] = -3 - x    # (1, -1) -> (-4, 0), (1, 1) -> (-4, -2)
+    coordinates[0][1] = -1 - y    # (-1, -1) -> (-2, 0), (-1, 1) -> (-2, -2)
+    coordinates[0][2] = 1         #
+    coordinates[1][0] = 6 - x     # (1, -1) -> (5, -1), (1, 1) -> (5, -3)
+    coordinates[1][1] = -2 - y    # (-1, -1) -> (7, -1), (-1, 1) -> (7, -3)
+    coordinates[1][2] = 1         #
+    coordinates[2][0] = 1 - x     #
+    coordinates[2][1] = -4 - y    #
+    coordinates[2][2] = 1         #
+    coordinates[3][0] = 2 - x     # (1, -1) -> (1, 9), (1, 1) -> (1, 7)
+    coordinates[3][1] = 8 - y     # (-1, -1) -> (3, 9), (-1, 1) -> (3, 7)
+    coordinates[3][2] = 1         #
+    coordinates[4][0] = -3 - x    # (1, -1) -> (-4, 5), (1, 1) -> (-4, 3)
+    coordinates[4][1] = 4 - y     # (-1, -1) -> (-2, 5), (-1, 1) -> (-2, 3)
+    coordinates[4][2] = 1         #
+    coordinates[5][0] = -6 - x    #
+    coordinates[5][1] = 6 - y     #
+    coordinates[5][2] = 1         #
+    coordinates[6][0] = -8 - x    #
+    coordinates[6][1] = -3 - y    #
+    coordinates[6][2] = 1         #
+    coordinates[7][0] = 6 - x     #
+    coordinates[7][1] = -9 - y    #
+    coordinates[7][2] = 1         #
+
     if ((x >= -6) and (x <= -2)) and ((y >= -3) and (y <= 0)):
         # Set course for WP 0
         start = 0
