@@ -23,7 +23,7 @@ Philip
   > $ cd catkin_ws
   > $ ./random.sh
 
-# Working of the
+# Working of the project
 > The initial map is created using launch file 1. This map has been edited previously and saved.
 > The random script will generate random points between 0 to 7 and shift it by -5.
 > These points are then used as the X and Y coordinates to launch the 2nd file. This file spawns 
