@@ -10,17 +10,23 @@ Philip
 
 2. Follow these steps to setup the environment:
   > $ cd catkin_ws/src
+
   > $ catkin_init_workspace
+
   > $ cd ..
+
   > $ git submodule init
+
   > $ git submodule update
 
 3. Build the project as follows:
   > $ catkin_make
+
   > $ source devel/setup.bash
 
 4. To run the complete project:
   > $ cd catkin_ws
+
   > $ ./random.sh
 
 # Working of the project
