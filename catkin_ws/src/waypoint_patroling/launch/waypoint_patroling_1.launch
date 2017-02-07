@@ -1,0 +1,33 @@
+<launch>
+
+  <!-- Launch Gazebo with the specified world -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find jackal_gazebo)/worlds/jackal_race.world" />
+  </include>
+
+  <include file="$(find jackal_description)/launch/description.launch">
+    <arg name="config" value="front_laser" />
+  </include>
+  <include file="$(find jackal_control)/launch/control.launch" />
+
+  <!--- Run gmapping -->
+  <include file="$(find jackal_navigation)/launch/include/gmapping.launch" />
+
+  <!--- Run Move Base -->
+  <include file="$(find jackal_navigation)/launch/include/move_base.launch" />
+
+  <!-- Run Rviz with gmapping configuration-->
+  <param name="use_gui" value="true"/>
+  <arg name="config" default="gmapping" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jackal_viz)/rviz/$(arg config).rviz" />
+
+  <!-- Run Node that randomly maps the jackal race world-->
+  <group ns="lab_four">
+    <node pkg="waypoint_patroling" name="mapper" type="mapper.py"/>
+  </group>
+
+  <!-- Spawn Jackal -->
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
+	      args="-urdf -model jackal -param robot_description -x 2.0 -y -3.0 -z 1.0" />
+
+</launch>

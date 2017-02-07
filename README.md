@@ -21,3 +21,15 @@ Finally, the project can be built as follows:
 $ catkin_make
 $ source devel/setup.bash
 ```
+
+To run patroller.py script:
+
+```
+$ rosrun waypoint_patroling patroller.py X Y
+```
+Arguements X and Y are the initial map coordinates of the jackal on launch, [X, Y].
+
+The Arguments X and Y for the random spawning feature has to be passed to the waypoint_patroling_2.launch file as follows
+```
+$ roslaunch waypoint_patroling_2.launch spawn:="X Y"
+```
