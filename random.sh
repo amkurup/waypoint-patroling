@@ -38,4 +38,6 @@ sed -i 's/-x 0 -y 0/-x '$point_x' -y '$point_y'/g' catkin_ws/src/waypoint_patrol
 echo "roslaunch waypoint_patroling waypoint_patroling_22.launch spawn:="$point_x $point_y""
 roslaunch waypoint_patroling waypoint_patroling_22.launch spawn:="$point_x $point_y"
 
+# remove intermedite files
+# rm catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_22.launch
 

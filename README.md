@@ -1,35 +1,32 @@
 # waypoint-patroling
-Group 2 Assignment 4 (EE5900)
+EE5900: Group #2 Assignment #4
 
 Team --
 Akhil (Team Lead)
 Roger
 Philip
 
-After cloning this repository, follow these steps to setup the Dev environment.
-```
-$ cd catkin_ws/src
-$ catkin_init_workspace
-$ cd ..
-$ git submodule init
-$ git submodule update
-```
+1. Clone the repository
 
-Finally, the project can be built as follows:
+2. Follow these steps to setup the environment:
+  > $ cd catkin_ws/src
+  > $ catkin_init_workspace
+  > $ cd ..
+  > $ git submodule init
+  > $ git submodule update
 
-```
-$ catkin_make
-$ source devel/setup.bash
-```
+3. Build the project as follows:
+  > $ catkin_make
+  > $ source devel/setup.bash
 
-To run patroller.py script:
+4. To run the complete project:
+  > $ cd catkin_ws
+  > $ ./random.sh
 
-```
-$ rosrun waypoint_patroling patroller.py X Y
-```
-Arguements X and Y are the initial map coordinates of the jackal on launch, [X, Y].
-
-The Arguments X and Y for the random spawning feature has to be passed to the waypoint_patroling_2.launch file as follows
-```
-$ roslaunch waypoint_patroling_2.launch spawn:="X Y"
-```
+# Working of the
+> The initial map is created using launch file 1. This map has been edited previously and saved.
+> The random script will generate random points between 0 to 7 and shift it by -5.
+> These points are then used as the X and Y coordinates to launch the 2nd file. This file spawns 
+the jackal in the random location and traverses it through the map following the waypoints.
+> This motion is stored in a rosbag file and is used by the 3rd launch file to play-back the motion
+on the original map.
