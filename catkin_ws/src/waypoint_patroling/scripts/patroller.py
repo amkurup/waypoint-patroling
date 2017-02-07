@@ -1,4 +1,19 @@
 #!/usr/bin/env python
+
+# patroling script to spawn the jackal in a location (x, y) 
+# and follow waypoints while generating a map.
+
+# Intro to Robotics - EE5900 - Spring 2017
+#          Assignment #4
+
+#       Project #4 Group #2
+#         Akhil (Team Lead)
+#            Philip
+#            Roger
+#
+# Revision: v1.2
+
+#!/usr/bin/env python
 import sys
 import rospy
 import actionlib
@@ -131,6 +146,7 @@ def patroller(i):
                 i -= 1
             print "i is now: %d" % i
         rate.sleep()
+
 if __name__ == "__main__":
     rospy.init_node("mapper")
     try:
