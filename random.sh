@@ -41,11 +41,13 @@ sed -i 's/-x 0 -y 0/-x '$point_x' -y '$point_y'/g' catkin_ws/src/waypoint_patrol
 echo "roslaunch waypoint_patroling waypoint_patroling_22.launch spawn:="$point_x $point_y""
 roslaunch waypoint_patroling waypoint_patroling_22.launch spawn:="$point_x $point_y"
 
-# bagFileName=`ls catkin_ws/src/waypoint_patroling/rosbag_files/*`
-# echo "ROSbag file: $bagFileName found!"
+cd catkin_ws/src/waypoint_patroling/rosbag_files/
+bagFileName=`ls *`
+echo "ROSbag file: $bagFileName found!"
+cd -
 
-# echo "roslaunch waypoint_patroling waypoint_patroling_33.launch bag_file_name:=$bagFileName"
-# roslaunch waypoint_patroling waypoint_patroling_33.launch bag_file_name:=$bagFileName
+echo "roslaunch waypoint_patroling waypoint_patroling_33.launch bag_file_name:=$bagFileName"
+roslaunch waypoint_patroling waypoint_patroling_33.launch bag_file_name:=$bagFileName
 
 # remove intermedite files
 # rm catkin_ws/src/waypoint_patroling/launch/waypoint_patroling_22.launch

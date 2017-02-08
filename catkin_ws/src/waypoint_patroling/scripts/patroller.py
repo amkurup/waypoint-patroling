@@ -17,12 +17,14 @@
 import sys
 import rospy
 import actionlib
+import time
 #from tf import transformations as t
 #from tf import TransformListener
 from actionlib_msgs.msg import *
 from geometry_msgs.msg import Point
 from move_base_msgs.msg	import MoveBaseAction, MoveBaseGoal
 
+start_time = 0
 
 # Initialize Waypoint coordinates
 coordinates = [[0 for x in range(3)] for y in range(8)]
@@ -108,6 +110,9 @@ def setup_route(x, y):
 
 
 def patroller(i):
+    global start_time
+    start_time = time.time()
+    
     mvbs = actionlib.SimpleActionClient('move_base', MoveBaseAction)
 
     rate = rospy.Rate(50)
@@ -116,8 +121,8 @@ def patroller(i):
     rospy.loginfo("Waiting for the move_base action server to come up")
     backtrack = False # variable used to decide when to reverse patrol route
 
-
-    while not rospy.is_shutdown():
+    while not time.time()-start_time>60:
+    # while not rospy.is_shutdown():
         pt = MoveBaseGoal()
         pt.target_pose.header.frame_id = 'map'
         pt.target_pose.header.stamp = rospy.Time.now()
@@ -127,9 +132,11 @@ def patroller(i):
         pt.target_pose.pose.orientation.y = 0
         pt.target_pose.pose.orientation.z = 0
         pt.target_pose.pose.orientation.w = coordinates[i][2]
+
         # Send next waypoint goal, wait until goal is reached, iterate to next waypoint
         mvbs.send_goal(pt)
         mvbs.wait_for_result()
+
         # Complete current patrol route until route ends, then backtrack
         if backtrack == False:
             if i >= 7:
@@ -145,7 +152,10 @@ def patroller(i):
             else:
                 i -= 1
             print "i is now: %d" % i
+
         rate.sleep()
+        rospy.signal_shutdown('exiting launch-2')
+
 
 if __name__ == "__main__":
     rospy.init_node("mapper")
