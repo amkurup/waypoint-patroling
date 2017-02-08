@@ -146,8 +146,8 @@ def patroller(i):
     rospy.loginfo("Waiting for the move_base action server to come up")
     backtrack = False # variable used to decide when to reverse patrol route
 
-    while not time.time()-start_time>60:
-    # while not rospy.is_shutdown():
+    #while not time.time()-start_time>600:
+    while not rospy.is_shutdown():
         pt = MoveBaseGoal()
         pt.target_pose.header.frame_id = 'map'
         pt.target_pose.header.stamp = rospy.Time.now()
@@ -179,7 +179,7 @@ def patroller(i):
             print "i is now: %d" % i
 
         rate.sleep()
-        rospy.signal_shutdown('exiting launch-2')
+    #rospy.signal_shutdown('exiting launch-2')
 
 
 if __name__ == "__main__":

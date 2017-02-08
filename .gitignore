@@ -52,3 +52,7 @@ CATKIN_IGNORE
 .swp
 .swn
 .swo
+
+# rosbag files
+.bag
+
