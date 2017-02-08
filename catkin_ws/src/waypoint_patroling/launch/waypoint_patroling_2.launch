@@ -10,31 +10,28 @@
   </include>
   <include file="$(find jackal_control)/launch/control.launch" />
 
-  <!--- Run gmapping -->
-  <include file="$(find jackal_navigation)/launch/include/gmapping.launch" />
+  <!-- Run the map server -->
+ <arg name="map_file" default="$(find waypoint_patroling)/maps/jackal_race_world.yaml"/>
+ <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
+
+  <!--- Run AMCL -->
+ <include file="$(find jackal_navigation)/launch/include/amcl.launch" />
 
   <!--- Run Move Base -->
-  <include file="$(find jackal_navigation)/launch/include/move_base.launch" />
+ <include file="$(find jackal_navigation)/launch/include/move_base.launch" />
 
- <!--<include file="$(find jackal_navigation)/launch/include/amcl.launch" />-->
-
-  <!-- Run Rviz with gmapping configuration-->
-  <param name="use_gui" value="true"/>
-  <arg name="config" default="gmapping" />
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jackal_viz)/rviz/$(arg config).rviz" />
+ <!-- Run Rviz with gmapping configuration-->
+ <param name="use_gui" value="true"/>
+ <arg name="config" default="gmapping" />
+ <node name="rviz" pkg="rviz" type="rviz" args="-d $(find jackal_viz)/rviz/$(arg config).rviz" />
 
   <!-- Run Node that sets waypoints for patrolling-->
   <arg name="spawning_coordinates" value="$(arg spawn)" />
   <node pkg="waypoint_patroling" name="patroller" type="patroller.py"  output="screen" args="$(arg spawning_coordinates)"/>
 
-  <!-- Launch the edited Jackal file-->
- <arg name="map_file" default="$(find waypoint_patroling)/maps/jackal_race_world.yaml"/>
- <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
-
  <!-- Records and saves the rosbag file -->
   <node pkg="rosbag" type="record" name="waypoint_patrol_bag"
             args="-o $(find waypoint_patroling)/rosbag_files/waypoint_patrol_bag /cmd_vel /move_base/goal /jackal_velocity_controller/cmd_vel /front/scan /tf"/>
-
 
   <!-- Spawn Jackal -->
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model"
