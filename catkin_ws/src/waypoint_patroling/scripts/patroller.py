@@ -54,11 +54,11 @@ coordinates[7][2] = 1
 
 # Function decides initial waypoint based on robot's current position
 def setup_route(x, y):
-    coordinates[0][0] = -3 - x    # (1, -1) -> (-4, 0), (1, 1) -> (-4, -2)
-    coordinates[0][1] = -1 - y    # (-1, -1) -> (-2, 0), (-1, 1) -> (-2, -2)
+    coordinates[0][0] = -3 - x    # (1, -1) -> (-4, 0), (1, 1) -> (-4, -2)     (2, -4) -> (-5, 3), (2, 4) -> (-5, -5)
+    coordinates[0][1] = -1 - y    # (-1, -1) -> (-2, 0), (-1, 1) -> (-2, -2)   (-2, -4) -> (-1, 3), (-2, 4) -> (-1, 5)
     coordinates[0][2] = 1         #
-    coordinates[1][0] = 6 - x     # (1, -1) -> (5, -1), (1, 1) -> (5, -3)
-    coordinates[1][1] = -2 - y    # (-1, -1) -> (7, -1), (-1, 1) -> (7, -3)
+    coordinates[1][0] = 6 - x     # (1, -1) -> (5, -1), (1, 1) -> (5, -3)      (2, -4) -> (4, 2), (2, 4) -> (4, -6)
+    coordinates[1][1] = -2 - y    # (-1, -1) -> (7, -1), (-1, 1) -> (7, -3)    (-2, -4) -> (8, 2), (-2, 4) -> (8, 6)
     coordinates[1][2] = 1         #
     coordinates[2][0] = 1 - x     #
     coordinates[2][1] = -4 - y    #
