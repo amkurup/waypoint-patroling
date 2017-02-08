@@ -38,3 +38,10 @@ on the original map.
   > $ cd catkin_ws
 
   > $ ./random.sh
+
+  > after the complete map has been traversed, use ctrl-C to stop
+
+  > give a couple of minutes for gzserver to stop completely
+
+  > $ ./random2.sh
+
